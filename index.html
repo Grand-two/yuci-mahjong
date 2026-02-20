@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>榆次麻将规则说明</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #eee;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #f0c419, #e94560, #f0c419);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, #e94560, #f0c419);
+            border-color: transparent;
+            font-weight: bold;
+        }
+
+        .content {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #f0c419;
+            margin: 25px 0 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid rgba(240,196,25,0.3);
+            padding-bottom: 10px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #e94560;
+            margin: 20px 0 10px;
+            font-size: 1.2rem;
+        }
+
+        p {
+            margin-bottom: 12px;
+            color: #ccc;
+        }
+
+        ul, ol {
+            margin: 10px 0 15px 25px;
+            color: #ccc;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            color: #f0c419;
+            font-weight: bold;
+        }
+
+        .important {
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .dice-section {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .dice {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(145deg, #fff, #ddd);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #333;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.5s;
+            cursor: pointer;
+        }
+
+        .dice.rolling {
+            animation: roll 0.5s ease-in-out;
+        }
+
+        @keyframes roll {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(180deg); }
+            50% { transform: rotate(360deg); }
+            75% { transform: rotate(540deg); }
+            100% { transform: rotate(720deg); }
+        }
+
+        .btn {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #e94560, #f0c419);
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(233,69,96,0.4);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(240,196,25,0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(240,196,25,0.3);
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            color: #f0c419;
+            margin-bottom: 15px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #888;
+        }
+
+        .result-value {
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        .seat-diagram {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .seat {
+            padding: 12px 18px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .seat-num {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #f0c419;
+        }
+
+        .seat-name {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .seat-desc {
+            color: #666;
+            font-size: 0.75rem;
+            margin-top: 3px;
+        }
+
+        .seat.active {
+            background: rgba(233,69,96,0.3);
+            border: 2px solid #e94560;
+        }
+
+        .tip {
+            background: rgba(240,196,25,0.1);
+            border-left: 4px solid #f0c419;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .warning {
+            background: rgba(233,69,96,0.1);
+            border-left: 4px solid #e94560;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .formula {
+            background: rgba(0,0,0,0.3);
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #f0c419;
+            margin: 15px 0;
+            display: inline-block;
+        }
+
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .score-table th, .score-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .score-table th {
+            color: #f0c419;
+            font-weight: bold;
+        }
+
+        .score-table td:first-child {
+            color: #ccc;
+        }
+
+        .score-table td:last-child {
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        .calc-section {
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .calc-title {
+            font-size: 1.2rem;
+            color: #f0c419;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .calc-group {
+            margin-bottom: 20px;
+        }
+
+        .calc-group-title {
+            color: #e94560;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(233,69,96,0.3);
+        }
+
+        .calc-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .calc-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calc-option:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .calc-option input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .calc-option span {
+            color: #ccc;
+        }
+
+        .calc-option .opt-fan {
+            color: #f0c419;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .calc-result {
+            background: linear-gradient(135deg, rgba(233,69,96,0.2), rgba(240,196,25,0.2));
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .calc-result-title {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .calc-result-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #f0c419;
+        }
+
+        .calc-result-detail {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            text-align: left;
+        }
+
+        .calc-result-detail div {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .calc-reset {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calc-reset:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding:  color: #666;
+            font-size: 0.9rem;
+       30px;
+            }
+
+        /* 十字型座位布局 */
+        .cross-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            gap: 0;
+        }
+
+        .cross-row {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+        }
+
+        .cross-center {
+            margin-top: 10px;
+        }
+
+        .seat {
+            min-width: 90px;
+            padding: 15px 20px;
+        }
+
+        /* 分享按钮 */
+        .share-section {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .share-btn {
+            background: linear-gradient(45deg, #e94560, #f0c419);
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(233,69,96,0.4);
+            transition: all 0.3s;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .container { padding: 15px; }
+            .content { padding: 20px; }
+            .dice { width: 80px; height: 80px; font-size: 2.5rem; }
+            .tabs { gap: 5px; }
+            .tab-btn { padding: 10px 15px; font-size: 0.9rem; }
+            .seat { min-width: 70px; padding: 10px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 分享按钮 -->
+    <div class="share-section">
+        <button class="share-btn" onclick="shareApp()">📤 分享</button>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>🀄 榆次麻将规则说明</h1>
+            <p class="subtitle">山西晋中地区特色麻将 · 交互式教程</p>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: #888;">点击右上角分享按钮分享给朋友</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('rules')">基本规则</button>
+            <button class="tab-btn" onclick="showTab('hupai')">胡牌类型</button>
+            <button class="tab-btn" onclick="showTab('score')">计分规则</button>
+            <button class="tab-btn" onclick="showTab('dice')">掷骰模拟</button>
+        </div>
+
+        <!-- 基本规则 -->
+        <div id="rules" class="content active">
+            <h2>🎯 基本规则概述</h2>
+            <p>榆次麻将<span class="highlight">流行于山西晋中地区</span>，是具有地域特色的四人麻将游戏。</p>
+
+            <h3>🀄 牌型说明（136张）</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">🀇</div>
+                    <div>万子牌</div>
+                    <div>1-9万，各4张</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🀙</div>
+                    <div>饼子牌</div>
+                    <div>1-9饼，各4张</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🀐</div>
+                    <div>条子牌</div>
+                    <div>1-9条，各4张</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🀀</div>
+                    <div>风牌</div>
+                    <div>东南西北，各4张</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🀄</div>
+                    <div>字牌</div>
+                    <div>中发白，各4张</div>
+                </div>
+            </div>
+
+            <h3>⚠️ 核心规则</h3>
+            <div class="warning">
+                <strong>报听才能胡牌！</strong><br>
+                要胡牌必须先报听（叫做"上架"），听牌后系统自动抓牌、出牌、胡牌。
+            </div>
+
+            <div class="warning">
+                <strong>必须缺一门！</strong><br>
+                胡牌时手上不能有三种花色的牌，只能保留两种花色。
+            </div>
+
+            <div class="tip">
+                <strong>可碰、可杠、不可吃</strong><br>
+                与其他麻将不同，榆次麻将不能吃牌，只能碰牌或杠牌。
+            </div>
+
+            <h3>👥 玩家人数</h3>
+            <p>4人对战，每人13张手牌，庄家14张。</p>
+
+            <h3>🎮 基本流程</h3>
+            <ol>
+                <li>庄家掷骰子，确定摸牌位置</li>
+                <li>庄家起手14张牌，其他玩家13张</li>
+                <li>由庄家开始，轮流摸牌出牌</li>
+                <li>可碰牌、可杠牌，但不可吃牌</li>
+                <li><span class="important">报听后才能胡牌</span></li>
+            </ol>
+        </div>
+
+        <!-- 胡牌类型 -->
+        <div id="hupai" class="content">
+            <h2>🏆 胡牌类型</h2>
+            <p>榆次麻将胡牌需要满足 <span class="highlight">4组面子 + 1对将</span>，且必须<span class="important">报听 + 缺一门</span>。</p>
+
+            <h3>📋 基本牌型说明</h3>
+            <ul>
+                <li><strong>面子（mianzi）：</strong> 3张牌组成
+                    <ul>
+                        <li>顺子：同花色连续3张（如 1-2-3万）</li>
+                        <li>刻子：相同3张（如 3个5饼）</li>
+                        <li>杠子：相同4张（如 4个8条）</li>
+                    </ul>
+                </li>
+                <li><strong>将牌（jiangpai）：</strong> 2张相同的牌（如 2个红中）</li>
+            </ul>
+
+            <h3>🃏 特殊牌型</h3>
+            <table class="score-table">
+                <tr>
+                    <td>一条龙</td>
+                    <td>同花色123-789</td>
+                    <td>10番</td>
+                </tr>
+                <tr>
+                    <td>清一色</td>
+                    <td>一种花色的序数牌</td>
+                    <td>10番</td>
+                </tr>
+                <tr>
+                    <td>字一色（风一色）</td>
+                    <td>全是字牌组成</td>
+                    <td>20番</td>
+                </tr>
+                <tr>
+                    <td>龙套龙</td>
+                    <td>清一色的一条龙</td>
+                    <td>20番</td>
+                </tr>
+                <tr>
+                    <td>七对</td>
+                    <td>7个对子</td>
+                    <td>7番</td>
+                </tr>
+                <tr>
+                    <td>碰碰胡</td>
+                    <td>4副刻子/杠 + 对子</td>
+                    <td>5番</td>
+                </tr>
+            </table>
+
+            <h3>📌 普通番型</h3>
+            <table class="score-table">
+                <tr>
+                    <td>坎张</td>
+                    <td>胡2张牌之间的牌</td>
+                    <td>1番</td>
+                </tr>
+                <tr>
+                    <td>边张</td>
+                    <td>胡123的3或789的7</td>
+                    <td>1番</td>
+                </tr>
+                <tr>
+                    <td>单钓</td>
+                    <td>单吊一张牌胡牌</td>
+                    <td>1番</td>
+                </tr>
+                <tr>
+                    <td>门前清</td>
+                    <td>未碰未杠，自摸胡牌</td>
+                    <td>1番</td>
+                </tr>
+                <tr>
+                    <td>断幺</td>
+                    <td>胡牌中无一、九及字牌</td>
+                    <td>1番</td>
+                </tr>
+            </table>
+
+            <div class="tip">
+                <strong>报听规则：</strong><br>
+                摸到听口的牌后，必须打出一张并扣倒（不让人看到），同时声明自己听牌了。报听后不能碰、杠，只能等胡牌。
+            </div>
+        </div>
+
+        <!-- 计分规则 -->
+        <div id="score" class="content">
+            <h2>📊 计分规则</h2>
+            <p>榆次麻将采用<span class="highlight">基本番 + 奖励番</span>的计分方式。平胡2番起算。</p>
+
+            <div class="calc-section">
+                <div class="calc-title">🎮 交互式番数计算器</div>
+
+                <div class="calc-group">
+                    <div class="calc-group-title">基本牌型（必选）</div>
+                    <div class="calc-options">
+                        <label class="calc-option">
+                            <input type="checkbox" id="pinghu" checked onchange="calcScore()">
+                            <span>平胡</span>
+                            <span class="opt-fan">2番</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calc-group">
+                    <div class="calc-group-title">普通番型（可多选）</div>
+                    <div class="calc-options">
+                        <label class="calc-option">
+                            <input type="checkbox" id="menqing" onchange="calcScore()">
+                            <span>门清</span>
+                            <span class="opt-fan">+1番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="duanyao" onchange="calcScore()">
+                            <span>断幺</span>
+                            <span class="opt-fan">+1番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="kanzhang" onchange="calcScore()">
+                            <span>坎张</span>
+                            <span class="opt-fan">+1番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="bianzhang" onchange="calcScore()">
+                            <span>边张</span>
+                            <span class="opt-fan">+1番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="diandiao" onchange="calcScore()">
+                            <span>单钓</span>
+                            <span class="opt-fan">+1番</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calc-group">
+                    <div class="calc-group-title">特殊牌型（多选累加）</div>
+                    <div class="calc-options">
+                        <label class="calc-option">
+                            <input type="checkbox" id="pengpenghu" onchange="calcScore()">
+                            <span>碰碰胡</span>
+                            <span class="opt-fan">+5番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="qidui" onchange="calcScore()">
+                            <span>七对</span>
+                            <span class="opt-fan">+7番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="yitiaolong" onchange="calcScore()">
+                            <span>一条龙</span>
+                            <span class="opt-fan">+10番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="qingyise" onchange="calcScore()">
+                            <span>清一色</span>
+                            <span class="opt-fan">+10番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="ziyise" onchange="calcScore()">
+                            <span>字一色</span>
+                            <span class="opt-fan">+20番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="longtaolong" onchange="calcScore()">
+                            <span>龙套龙</span>
+                            <span class="opt-fan">+20番</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calc-group">
+                    <div class="calc-group-title">奖励情况</div>
+                    <div class="calc-options">
+                        <label class="calc-option">
+                            <input type="checkbox" id="zhuangjia" onchange="calcScore()">
+                            <span>坐庄</span>
+                            <span class="opt-fan">+1番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="zimo" onchange="calcScore()">
+                            <span>自摸</span>
+                            <span class="opt-fan">×2</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calc-group">
+                    <div class="calc-group-title">杠牌（赢家有杠加番）</div>
+                    <div class="calc-options">
+                        <label class="calc-option">
+                            <input type="checkbox" id="minggang" onchange="calcScore()">
+                            <span>明杠 ×1</span>
+                            <span class="opt-fan">+1番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="angang" onchange="calcScore()">
+                            <span>暗杠 ×1</span>
+                            <span class="opt-fan">+1番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="minggang2" onchange="calcScore()">
+                            <span>明杠 ×2</span>
+                            <span class="opt-fan">+2番</span>
+                        </label>
+                        <label class="calc-option">
+                            <input type="checkbox" id="angang2" onchange="calcScore()">
+                            <span>暗杠 ×2</span>
+                            <span class="opt-fan">+2番</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calc-result">
+                    <div class="calc-result-title">计算结果</div>
+                    <div class="calc-result-value" id="totalScore">2</div>
+                    <div class="calc-result-detail" id="scoreDetail">
+                        <div><span>平胡基础</span><span>2番</span></div>
+                    </div>
+                    <button class="calc-reset" onclick="resetCalc()">重置</button>
+                </div>
+            </div>
+
+            <h3>⚖️ 杠牌规则</h3>
+            <ul>
+                <li>明杠（别人打出的牌杠）：被抢胡无加番</li>
+                <li>暗杠（自己摸到的牌杠）：不算番</li>
+                <li><strong>杠随胡走：</strong>赢家有杠加番，输家有杠无加番</li>
+                <li>抢杠：抢杠者无加番，包牌</li>
+            </ul>
+
+            <h3>💰 点炮规则</h3>
+            <div class="warning">
+                <ul>
+                    <li><strong>已报听：</strong>各付各的（点炮者付胡牌者）</li>
+                    <li><strong>未报听：</strong>包三家（点炮者付三家）</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 掷骰模拟 -->
+        <div id="dice" class="content">
+            <h2>🎲 掷骰子确定摸牌位置</h2>
+            <p>榆次麻将用<span class="highlight">两颗骰子、两次掷骰</span>确定摸牌位置，核心是"先定方向、再定墩位"。</p>
+
+            <h3>📖 两次掷骰规则</h3>
+            <div class="calc-section">
+                <div class="calc-group-title">第一次掷骰（庄家掷）→ 确定第二次掷骰人</div>
+                <table class="score-table">
+                    <tr><th>点数和</th><th>第二次掷骰人</th></tr>
+                    <tr><td>5、9点</td><td>庄家（自己）</td></tr>
+                    <tr><td>2、6、10点</td><td>下家（右手边）</td></tr>
+                    <tr><td>3、7、11点</td><td>对家</td></tr>
+                    <tr><td>4、8、12点</td><td>上家（左手边）</td></tr>
+                </table>
+                <div class="tip">口诀：五九自手，二六十过，三七对门，四八到底</div>
+            </div>
+
+            <div class="calc-section">
+                <div class="calc-group-title">第二次掷骰 → 确定留墩数</div>
+                <p>由上一步确定的人再掷两颗骰子，两次点数相加得到总点数。</p>
+                <p>在第二次掷骰人的牌墙上，从右往左数，跳过总点数对应的墩数，从下一墩开始摸牌。</p>
+            </div>
+
+            <div class="dice-section">
+                <div class="calc-title">🎮 掷骰模拟</div>
+                <p id="rollPhase">第一轮：庄家掷骰</p>
+
+                <!-- 模式切换 -->
+                <div class="calc-options" style="justify-content: center; margin-bottom: 15px;">
+                    <label class="calc-option">
+                        <input type="radio" name="diceMode" value="random" checked onchange="toggleDiceMode()">
+                        <span>🎲 随机掷骰</span>
+                    </label>
+                    <label class="calc-option">
+                        <input type="radio" name="diceMode" value="manual" onchange="toggleDiceMode()">
+                        <span>✏️ 手动输入</span>
+                    </label>
+                </div>
+
+                <!-- 随机掷骰模式 -->
+                <div id="randomMode">
+                    <div class="dice-container">
+                        <div class="dice" id="dice1">🎲</div>
+                        <div class="dice" id="dice2">🎲</div>
+                    </div>
+                    <button class="btn" id="rollBtn" onclick="rollDice()">开始掷骰</button>
+                </div>
+
+                <!-- 手动输入模式 -->
+                <div id="manualMode" style="display: none;">
+                    <div class="calc-group">
+                        <div class="calc-group-title">第一次掷骰</div>
+                        <div class="calc-options" style="justify-content: center;">
+                            <input type="number" id="dice1Input" min="1" max="6" value="1" style="width: 60px; padding: 10px; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem;">
+                            <span style="color: #ccc; font-size: 1.5rem;">+</span>
+                            <input type="number" id="dice2Input" min="1" max="6" value="1" style="width: 60px; padding: 10px; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem;">
+                        </div>
+                    </div>
+                    <button class="btn" id="calcBtn" onclick="calculateManual()">计算</button>
+                </div>
+
+                <button class="calc-reset" onclick="resetDice()">重置</button>
+
+                <div class="result" id="result" style="display: none;">
+                    <div class="result-title">🎯 掷骰结果</div>
+
+                    <div id="firstRollResult">
+                        <div class="result-item">
+                            <span class="result-label">第一次掷骰</span>
+                            <span class="result-value" id="firstRollDice">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">点数和</span>
+                            <span class="result-value" id="firstSum">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">第二次掷骰人</span>
+                            <span class="result-value" id="secondRuller">-</span>
+                        </div>
+                    </div>
+
+                    <div id="secondRollResult" style="display: none;">
+                        <div class="result-item">
+                            <span class="result-label">第二次掷骰</span>
+                            <span class="result-value" id="secondRollDice">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">第二次点数</span>
+                            <span class="result-value" id="secondSum">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">总点数</span>
+                            <span class="result-value" id="totalPoints">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">摸牌位置</span>
+                            <span class="result-value" id="drawPosition">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>🗺️ 座位示意图（十字型）</h3>
+            <div class="cross-layout">
+                <div class="cross-row" style="margin-bottom: 10px;">
+                    <div class="seat" id="seat-duijia">
+                        <div class="seat-num">对家</div>
+                        <div class="seat-name">西风位</div>
+                        <div class="seat-desc">庄家对面</div>
+                    </div>
+                </div>
+                <div class="cross-row cross-center" style="gap: 30px;">
+                    <div class="seat" id="seat-shangjia">
+                        <div class="seat-num">上家</div>
+                        <div class="seat-name">北风位</div>
+                        <div class="seat-desc">庄家左手</div>
+                    </div>
+                    <div class="seat" id="seat-zhuangjia" style="background: rgba(240,196,25,0.3); border: 2px solid #f0c419;">
+                        <div class="seat-num">庄家</div>
+                        <div class="seat-name">东风位</div>
+                        <div class="seat-desc">先摸先打</div>
+                    </div>
+                    <div class="seat" id="seat-xiajia">
+                        <div class="seat-num">下家</div>
+                        <div class="seat-name">南风位</div>
+                        <div class="seat-desc">庄家右手</div>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 10px;">
+                🔄 轮庄方向：庄家 → 下家 → 对家 → 上家（逆时针）<br>
+                🎯 行牌方向：庄家 → 下家 → 对家 → 上家（顺时针摸打）
+            </p>
+
+            <h3>📋 摸牌顺序</h3>
+            <ul>
+                <li>庄家先抓，按<span class="highlight">顺时针</span>轮流：庄家→下家→对家→上家</li>
+                <li>每人抓3轮（每轮2墩=4张），共12张</li>
+                <li>庄家再抓2张（共14张），其他人各抓1张（共13张）</li>
+            </ul>
+
+            <h3>🔄 流局（黄庄）判定</h3>
+            <table class="score-table">
+                <tr><td>1杠</td><td>7垛</td></tr>
+                <tr><td>2杠</td><td>8垛</td></tr>
+                <tr><td>3杠</td><td>9垛</td></tr>
+                <tr><td>4杠</td><td>10垛</td></tr>
+            </table>
+        </div>
+
+        <footer>
+            <p>榆次麻将规则说明 · 交互式学习工具</p>
+            <p>祝你玩得开心！🀄</p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab 切换
+        function showTab(tabId) {
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // 番数计算功能
+        function calcScore() {
+            let total = 0;
+            let details = [];
+
+            // 基本牌型 - 平胡必选
+            if (document.getElementById('pinghu').checked) {
+                total += 2;
+                details.push({ name: '平胡基础', value: '2番' });
+            }
+
+            // 普通番型
+            if (document.getElementById('menqing').checked) {
+                total += 1;
+                details.push({ name: '门清', value: '+1番' });
+            }
+            if (document.getElementById('duanyao').checked) {
+                total += 1;
+                details.push({ name: '断幺', value: '+1番' });
+            }
+            if (document.getElementById('kanzhang').checked) {
+                total += 1;
+                details.push({ name: '坎张', value: '+1番' });
+            }
+            if (document.getElementById('bianzhang').checked) {
+                total += 1;
+                details.push({ name: '边张', value: '+1番' });
+            }
+            if (document.getElementById('diandiao').checked) {
+                total += 1;
+                details.push({ name: '单钓', value: '+1番' });
+            }
+
+            // 特殊牌型
+            if (document.getElementById('pengpenghu').checked) {
+                total += 5;
+                details.push({ name: '碰碰胡', value: '+5番' });
+            }
+            if (document.getElementById('qidui').checked) {
+                total += 7;
+                details.push({ name: '七对', value: '+7番' });
+            }
+            if (document.getElementById('yitiaolong').checked) {
+                total += 10;
+                details.push({ name: '一条龙', value: '+10番' });
+            }
+            if (document.getElementById('qingyise').checked) {
+                total += 10;
+                details.push({ name: '清一色', value: '+10番' });
+            }
+            if (document.getElementById('ziyise').checked) {
+                total += 20;
+                details.push({ name: '字一色', value: '+20番' });
+            }
+            if (document.getElementById('longtaolong').checked) {
+                total += 20;
+                details.push({ name: '龙套龙', value: '+20番' });
+            }
+
+            // 奖励情况
+            if (document.getElementById('zhuangjia').checked) {
+                total += 1;
+                details.push({ name: '坐庄', value: '+1番' });
+            }
+            if (document.getElementById('zimo').checked) {
+                total *= 2;
+                details.push({ name: '自摸（×2）', value: '×2' });
+            }
+
+            // 杠牌计算
+            let gangCount = 0;
+            if (document.getElementById('minggang').checked) gangCount += 1;
+            if (document.getElementById('angang').checked) gangCount += 1;
+            if (document.getElementById('minggang2').checked) gangCount += 2;
+            if (document.getElementById('angang2').checked) gangCount += 2;
+            if (gangCount > 0) {
+                total += gangCount;
+                details.push({ name: '杠牌（' + gangCount + '个）', value: '+' + gangCount + '番' });
+            }
+
+            // 确保平胡必选
+            if (total === 0) {
+                total = 2;
+                details.push({ name: '平胡基础', value: '2番' });
+                document.getElementById('pinghu').checked = true;
+            }
+
+            // 更新显示
+            document.getElementById('totalScore').textContent = total;
+
+            // 更新详情
+            let detailHtml = '';
+            details.forEach(item => {
+                detailHtml += `<div><span>${item.name}</span><span>${item.value}</span></div>`;
+            });
+            document.getElementById('scoreDetail').innerHTML = detailHtml;
+        }
+
+        // 重置计算器
+        function resetCalc() {
+            document.getElementById('pinghu').checked = true;
+            document.getElementById('menqing').checked = false;
+            document.getElementById('duanyao').checked = false;
+            document.getElementById('kanzhang').checked = false;
+            document.getElementById('bianzhang').checked = false;
+            document.getElementById('diandiao').checked = false;
+            document.getElementById('pengpenghu').checked = false;
+            document.getElementById('qidui').checked = false;
+            document.getElementById('yitiaolong').checked = false;
+            document.getElementById('qingyise').checked = false;
+            document.getElementById('ziyise').checked = false;
+            document.getElementById('longtaolong').checked = false;
+            document.getElementById('zhuangjia').checked = false;
+            document.getElementById('zimo').checked = false;
+            document.getElementById('minggang').checked = false;
+            document.getElementById('angang').checked = false;
+            document.getElementById('minggang2').checked = false;
+            document.getElementById('angang2').checked = false;
+            calcScore();
+        }
+
+        // 切换掷骰模式
+        function toggleDiceMode() {
+            const mode = document.querySelector('input[name="diceMode"]:checked').value;
+            document.getElementById('randomMode').style.display = mode === 'random' ? 'block' : 'none';
+            document.getElementById('manualMode').style.display = mode === 'manual' ? 'block' : 'none';
+            document.getElementById('rollPhase').textContent = mode === 'random' ? '第一轮：庄家掷骰' : '手动输入模式';
+            resetDice();
+        }
+
+        // 手动计算
+        let manualStep = 0; // 0=第一次掷骰, 1=第二次掷骰
+
+        function calculateManual() {
+            const dice1 = document.getElementById('dice1Input');
+            const dice2 = document.getElementById('dice2Input');
+            const v1 = parseInt(dice1.value) || 1;
+            const v2 = parseInt(dice2.value) || 1;
+
+            // 限制在1-6之间
+            dice1.value = Math.max(1, Math.min(6, v1));
+            dice2.value = Math.max(1, Math.min(6, v2));
+
+            const value1 = dice1.value;
+            const value2 = dice2.value;
+
+            document.getElementById('result').style.display = 'block';
+
+            if (manualStep === 0) {
+                // 第一次掷骰
+                const sum = parseInt(value1) + parseInt(value2);
+                firstRollSum = sum;
+                secondRuller = getSecondRuller(sum);
+
+                document.getElementById('firstRollDice').textContent = value1 + ' + ' + value2;
+                document.getElementById('firstSum').textContent = sum + '点';
+                document.getElementById('secondRuller').textContent = secondRuller;
+
+                document.getElementById('rollPhase').textContent = '第二轮：' + secondRuler + '掷骰（输入第二次点数）';
+                manualStep = 1;
+
+                // 高亮座位
+                highlightSeat(secondRuller);
+            } else {
+                // 第二次掷骰
+                const sum2 = parseInt(value1) + parseInt(value2);
+                const totalPoints = firstRollSum + sum2;
+                const drawPosition = totalPoints + 1;
+
+                document.getElementById('secondRollDice').textContent = value1 + ' + ' + value2;
+                document.getElementById('secondSum').textContent = sum2 + '点';
+                document.getElementById('totalPoints').textContent = firstRollSum + ' + ' + sum2 + ' = ' + totalPoints + '点';
+                document.getElementById('drawPosition').textContent = '从' + secondRuller + '牌墙右数第' + totalPoints + '墩，跳过，从第' + drawPosition + '墩开始摸牌';
+
+                document.getElementById('secondRollResult').style.display = 'block';
+                document.getElementById('rollPhase').textContent = '计算完成';
+            }
+        }
+
+        // 骰子点数映射
+        const diceDots = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+        // 两次掷骰状态
+        let firstRollDone = false;
+        let firstRollSum = 0;
+        let secondRuller = '';
+
+        // 第一次掷骰确定第二次掷骰人
+        function getSecondRuller(sum) {
+            if (sum === 5 || sum === 9) return '庄家';
+            if (sum === 2 || sum === 6 || sum === 10) return '下家';
+            if (sum === 3 || sum === 7 || sum === 11) return '对家';
+            return '上家';
+        }
+
+        // 掷骰子功能（两次掷骰）
+        function rollDice() {
+            const dice1 = document.getElementById('dice1');
+            const dice2 = document.getElementById('dice2');
+            const rollBtn = document.getElementById('rollBtn');
+
+            dice1.classList.add('rolling');
+            dice2.classList.add('rolling');
+
+            setTimeout(() => {
+                const value1 = Math.floor(Math.random() * 6) + 1;
+                const value2 = Math.floor(Math.random() * 6) + 1;
+
+                dice1.textContent = diceDots[value1 - 1];
+                dice2.textContent = diceDots[value2 - 1];
+
+                dice1.classList.remove('rolling');
+                dice2.classList.remove('rolling');
+
+                const sum = value1 + value2;
+                document.getElementById('result').style.display = 'block';
+
+                if (!firstRollDone) {
+                    // 第一次掷骰
+                    firstRollSum = sum;
+                    secondRuller = getSecondRuller(sum);
+
+                    document.getElementById('firstRollDice').textContent = value1 + diceDots[value1-1] + ' + ' + value2 + diceDots[value2-1];
+                    document.getElementById('firstSum').textContent = sum + '点';
+                    document.getElementById('secondRuller').textContent = secondRuller;
+
+                    document.getElementById('rollPhase').textContent = '第二轮：' + secondRuller + '掷骰';
+                    rollBtn.textContent = '继续掷骰';
+
+                    // 高亮第二次掷骰人
+                    highlightSeat(secondRuller);
+
+                    firstRollDone = true;
+                } else {
+                    // 第二次掷骰
+                    const totalPoints = firstRollSum + sum;
+                    const drawPosition = totalPoints + 1; // 跳过总点数，从下一墩开始
+
+                    document.getElementById('secondRollDice').textContent = value1 + diceDots[value1-1] + ' + ' + value2 + diceDots[value2-1];
+                    document.getElementById('secondSum').textContent = sum + '点';
+                    document.getElementById('totalPoints').textContent = firstRollSum + ' + ' + sum + ' = ' + totalPoints + '点';
+                    document.getElementById('drawPosition').textContent = '从' + secondRuller + '牌墙右数第' + totalPoints + '墩，跳过，从第' + drawPosition + '墩开始摸牌';
+
+                    document.getElementById('secondRollResult').style.display = 'block';
+                    rollBtn.textContent = '已完成';
+                    rollBtn.disabled = true;
+
+                    // 高亮摸牌位置
+                    highlightSeat(secondRuller);
+                }
+
+            }, 500);
+        }
+
+        // 重置掷骰
+        function resetDice() {
+            firstRollDone = false;
+            firstRollSum = 0;
+            secondRuller = '';
+            manualStep = 0;
+
+            const mode = document.querySelector('input[name="diceMode"]:checked').value;
+            document.getElementById('dice1').textContent = '🎲';
+            document.getElementById('dice2').textContent = '🎲';
+            document.getElementById('rollPhase').textContent = mode === 'random' ? '第一轮：庄家掷骰' : '手动输入模式';
+            document.getElementById('rollBtn').textContent = '开始掷骰';
+            document.getElementById('rollBtn').disabled = false;
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('secondRollResult').style.display = 'none';
+
+            // 重置座位高亮 - 恢复默认样式
+            document.querySelectorAll('.seat').forEach(s => {
+                s.style.background = 'rgba(255,255,255,0.1)';
+                s.style.border = 'none';
+            });
+            // 庄家恢复特殊样式
+            document.getElementById('seat-zhuangjia').style.background = 'rgba(240,196,25,0.3)';
+            document.getElementById('seat-zhuangjia').style.border = '2px solid #f0c419';
+        }
+
+        // 高亮座位
+        function highlightSeat(seats) {
+            // 清除所有高亮（包括庄家的默认样式）
+            document.querySelectorAll('.seat').forEach(s => {
+                s.style.background = 'rgba(255,255,255,0.1)';
+                s.style.border = 'none';
+            });
+
+            const seatMap = {
+                '庄家': 'seat-zhuangjia',
+                '下家': 'seat-xiajia',
+                '对家': 'seat-duijia',
+                '上家': 'seat-shangjia'
+            };
+
+            const seatId = seatMap[seats];
+            if (seatId) {
+                const seat = document.getElementById(seatId);
+                seat.style.background = 'rgba(233,69,96,0.5)';
+                seat.style.border = '3px solid #e94560';
+            }
+        }
+
+        // 分享功能
+        async function shareApp() {
+            const shareData = {
+                title: '榆次麻将规则说明',
+                text: '榆次麻将交互式规则教程 - 包含基本规则、胡牌类型、计分计算、掷骰模拟',
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    console.log('分享取消');
+                }
+            } else {
+                // 复制链接到剪贴板
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert('链接已复制到剪贴板，可以粘贴发送给朋友！');
+                } catch (err) {
+                    prompt('复制以下链接分享给朋友：', window.location.href);
+                }
+            }
+        }
+
+        // 移动端优化
+        if ('serviceWorker' in navigator) {
+            // PWA 支持 - 可以添加到主屏幕
+        }
+    </script>
+</body>
+</html>
