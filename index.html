@@ -801,19 +801,30 @@
                             <span class="opt-fan">+1番</span>
                         </label>
                         <label class="calc-option">
-                            <input type="checkbox" id="angang" onchange="calcScore()">
-                            <span>暗杠 ×1</span>
-                            <span class="opt-fan">+1番</span>
-                        </label>
-                        <label class="calc-option">
                             <input type="checkbox" id="minggang2" onchange="calcScore()">
                             <span>明杠 ×2</span>
                             <span class="opt-fan">+2番</span>
                         </label>
                         <label class="calc-option">
+                            <input type="checkbox" id="angang" onchange="calcScore()">
+                            <span>暗杠 ×1</span>
+                            <span class="opt-fan">+2番</span>
+                        </label>
+                        <label class="calc-option">
                             <input type="checkbox" id="angang2" onchange="calcScore()">
                             <span>暗杠 ×2</span>
-                            <span class="opt-fan">+2番</span>
+                            <span class="opt-fan">+4番</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calc-group">
+                    <div class="calc-group-title">特殊情况</div>
+                    <div class="calc-options">
+                        <label class="calc-option">
+                            <input type="checkbox" id="quanbao" onchange="calcScore()">
+                            <span>全包（未听牌点炮）</span>
+                            <span class="opt-fan">+1番</span>
                         </label>
                     </div>
                 </div>
@@ -976,14 +987,15 @@
                 </div>
             </div>
             <p style="text-align: center; color: #888; font-size: 0.9rem; margin-top: 10px;">
-                🔄 轮庄方向：庄家 → 下家 → 对家 → 上家（逆时针）<br>
-                🎯 行牌方向：庄家 → 下家 → 对家 → 上家（顺时针摸打）
+                🔄 轮庄方向：庄 → 上家 → 对家 → 下家（逆时针）<br>
+                🎯 出牌方向：庄 → 下家 → 对家 → 上家 → 庄（顺时针）
             </p>
 
-            <h3>📋 摸牌顺序</h3>
+            <h3>📋 抓牌与出牌顺序</h3>
             <ul>
-                <li>庄家先抓，按<span class="highlight">顺时针</span>轮流：庄家→下家→对家→上家</li>
-                <li>每人抓3轮（每轮2墩=4张），共12张</li>
+                <li><strong>抓牌顺序（逆时针）：</strong>庄 → 上家 → 对家 → 下家</li>
+                <li><strong>出牌顺序（顺时针）：</strong>庄 → 下家 → 对家 → 上家 → 庄</li>
+                <li>庄家先抓4张，每人抓3轮（每轮2墩=4张），共12张</li>
                 <li>庄家再抓2张（共14张），其他人各抓1张（共13张）</li>
             </ul>
 
@@ -1084,15 +1096,22 @@
                 details.push({ name: '自摸（×2）', value: '×2' });
             }
 
-            // 杠牌计算
-            let gangCount = 0;
-            if (document.getElementById('minggang').checked) gangCount += 1;
-            if (document.getElementById('angang').checked) gangCount += 1;
-            if (document.getElementById('minggang2').checked) gangCount += 2;
-            if (document.getElementById('angang2').checked) gangCount += 2;
-            if (gangCount > 0) {
-                total += gangCount;
-                details.push({ name: '杠牌（' + gangCount + '个）', value: '+' + gangCount + '番' });
+            // 杠牌计算：明杠+1/个，暗杠+2/个
+            let gangScore = 0;
+            let gangDesc = [];
+            if (document.getElementById('minggang').checked) { gangScore += 1; gangDesc.push('明杠×1'); }
+            if (document.getElementById('minggang2').checked) { gangScore += 2; gangDesc.push('明杠×2'); }
+            if (document.getElementById('angang').checked) { gangScore += 2; gangDesc.push('暗杠×1'); }
+            if (document.getElementById('angang2').checked) { gangScore += 4; gangDesc.push('暗杠×2'); }
+            if (gangScore > 0) {
+                total += gangScore;
+                details.push({ name: '杠牌（' + gangDesc.join('+') + '）', value: '+' + gangScore + '番' });
+            }
+
+            // 全包（未听牌点炮）
+            if (document.getElementById('quanbao').checked) {
+                total += 1;
+                details.push({ name: '全包', value: '+1番' });
             }
 
             // 确保平胡必选
@@ -1133,6 +1152,7 @@
             document.getElementById('angang').checked = false;
             document.getElementById('minggang2').checked = false;
             document.getElementById('angang2').checked = false;
+            document.getElementById('quanbao').checked = false;
             calcScore();
         }
 
